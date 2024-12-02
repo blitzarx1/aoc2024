@@ -7,7 +7,6 @@ static const char *INPUT_PATH = "input.txt";
 void readinput(Array *a, Array *b) {
   FILE *fp;
   size_t len = 0;
-  ssize_t read;
 
   fp = fopen(INPUT_PATH, "r");
   if (fp == NULL)
@@ -22,7 +21,7 @@ void readinput(Array *a, Array *b) {
   fclose(fp);
 }
 
-void part1() {
+int part1() {
   Array arr1 = array_new(2);
   Array arr2 = array_new(2);
 
@@ -31,18 +30,18 @@ void part1() {
   array_sort(&arr1);
   array_sort(&arr2);
 
-  int res = 0;
+  int distance = 0;
   for (int i = 0; i < arr1.size; i++) {
-    res += abs(arr1.data[i] - arr2.data[i]);
+    distance += abs(arr1.data[i] - arr2.data[i]);
   }
-
-  printf("%d\n", res);
 
   free(arr1.data);
   free(arr2.data);
+
+  return distance;
 }
 
-void part2() {
+long part2() {
   Array arr1 = array_new(2);
   Array arr2 = array_new(2);
 
@@ -51,30 +50,35 @@ void part2() {
   array_sort(&arr1);
 
   int prev;
-  long score;
+  long score = 0;
   for (int i = 0; i < arr1.size; i++) {
     int curr = arr1.data[i];
 
-    printf("i: %d, curr: %d, prev: %d\n", i, curr, prev);
+    // printf("i: %d, curr: %d, prev: %d\n", i, curr, prev);
 
-    int cnt;
+    int cnt = 0;
     for (int j = 0; j < arr2.size; j++) {
       if (arr2.data[j] == curr) {
         cnt++;
       }
     }
 
-    printf("  found %d times\n", cnt);
+    // printf("  found %d times\n", cnt);
 
     score += curr * cnt;
     prev = curr;
     cnt = 0;
   }
 
-  printf("got similarity score: %ld\n", score);
+  return score;
 }
 
 int main() {
-  part2();
-  return 0;
+  int distance = part1();
+  printf("distance: %d\n", distance);
+
+  long similarity_score = part2();
+  printf("similarity score: %ld\n", similarity_score);
+
+  return EXIT_SUCCESS;
 }
