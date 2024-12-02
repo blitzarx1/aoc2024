@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    - xc
+    - "-I[/Users/dmitrii.samsonov/dev/aoc2024/array]"

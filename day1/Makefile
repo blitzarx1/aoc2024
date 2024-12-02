@@ -1,9 +1,9 @@
 build:
-	gcc -o main main.c 
+	gcc -c ../array/array.c -o array.o && gcc main.c array.o -I../array -o main 
 
 run: build
 	./main 
 
-clear: 
-	rm main
+clean: 
+	rm main array.o
 

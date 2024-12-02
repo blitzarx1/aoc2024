@@ -1,0 +1,7 @@
+[[language]]
+name = "cpp"
+language-servers = ["clangd"]
+
+[language-server.clangd]
+command = "clangd"
+args = ["--compile-commands-dir=/Users/dmitrii.samsonov/dev/aoc2024"]
