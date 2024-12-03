@@ -16,5 +16,7 @@ char *array_string(const Array *array);
 char *array_string_debug(const Array *array);
 int compare(const void *a, const void *b);
 void array_sort(Array *array);
+int *array_pop(Array *array, int idx);
+Array array_copy(Array *array);
 
 #endif // ARRAY_H

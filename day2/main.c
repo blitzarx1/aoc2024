@@ -20,12 +20,12 @@ int string_split(char *string, char sep, char ***r_array_string) {
   array_string = malloc(size * sizeof(char *));
 
   i = 0, k = 0;
-  array_string[k++] = string; // Save the first substring pointer
-  // Split 'string' into substrings with \0 character
+  array_string[k++] = string; // save the first substring pointer
+  // split 'string' into substrings with \0 character
   while (k < size) {
     if (string[i++] == sep) {
-      string[i - 1] = '\0';             // Set end of substring
-      array_string[k++] = (string + i); // Save the next substring pointer
+      string[i - 1] = '\0';             // set end of substring
+      array_string[k++] = (string + i); // save the next substring pointer
     }
   }
 
@@ -33,7 +33,7 @@ int string_split(char *string, char sep, char ***r_array_string) {
   return size;
 }
 
-short is_safe(Array *nums) {
+short is_safe(Array *nums, int *idx) {
   if (nums->size == 0) {
     return 0;
   }
@@ -41,32 +41,73 @@ short is_safe(Array *nums) {
   int prev = nums->data[0];
   int g_diff = nums->data[nums->size - 1] - prev;
   int g_sgn = (g_diff) / abs(g_diff);
-  if (g_sgn == 0) {
-    return 0;
-  }
   for (int i = 1; i < nums->size; i++) {
     int curr = nums->data[i];
     int diff = curr - prev;
-    if (diff == 0) {
-      return 0;
-    }
 
     int sgn = diff / abs(diff);
     if (sgn != g_sgn) {
+      if (idx != NULL) {
+        *idx = i;
+      }
+
       return 0;
     }
 
     if (abs(diff) < 1 || abs(diff) > 3) {
+      if (idx != NULL) {
+        *idx = i;
+      }
+
       return 0;
     }
 
     prev = curr;
   }
 
-  char *safe_nums_string = array_string(nums);
-  printf("safe nums: %s %d\n", safe_nums_string, g_sgn);
-  free(safe_nums_string);
+  return 1;
+}
 
+short is_safe_with_mod(Array *nums, int *mod) {
+  if (mod == NULL) {
+    printf("\n");
+  }
+
+  printf("checking: ");
+
+  if (mod == NULL) {
+    char *nums_str = array_string(nums);
+    printf("%s", nums_str);
+    free(nums_str);
+
+    int idx = 0;
+    if (is_safe(nums, &idx) == 0) {
+      printf(" bad;\n skipping %d -> ", idx);
+
+      if (is_safe_with_mod(nums, &idx) == 0) {
+        int prev = idx - 1;
+        printf(" skipping %d -> ", prev);
+        return is_safe_with_mod(nums, &prev);
+      } else {
+        return 1;
+      }
+    }
+  } else {
+    Array nums_copy = array_copy(nums);
+    array_pop(&nums_copy, *mod);
+
+    char *nums_copy_str = array_string(&nums_copy);
+    printf("%s", nums_copy_str);
+    free(nums_copy_str);
+
+    int idx = 0;
+    if (is_safe(&nums_copy, &idx) == 0) {
+      printf(" bad;\n");
+      return 0;
+    }
+  }
+
+  printf(" good;\n");
   return 1;
 }
 
@@ -92,7 +133,42 @@ int part1() {
       array_add(&nums, num);
     }
 
-    if (is_safe(&nums) == 1) {
+    if (is_safe(&nums, NULL) == 1) {
+      safe_cnt++;
+    }
+
+    free(nums.data);
+  }
+
+  fclose(fp);
+  free(line);
+
+  return safe_cnt;
+}
+
+int part2() {
+  int safe_cnt = 0;
+
+  FILE *fp;
+  char *line = NULL;
+  size_t len = 0;
+  ssize_t read;
+
+  fp = fopen(INPUT_PATH, "r");
+  if (fp == NULL)
+    exit(EXIT_FAILURE);
+
+  while ((read = getline(&line, &len, fp)) != -1) {
+    char **splitted;
+    int splitted_size = string_split(line, ' ', &splitted);
+
+    Array nums = array_new(splitted_size);
+    for (int i = 0; i < splitted_size; i++) {
+      int num = atoi(splitted[i]);
+      array_add(&nums, num);
+    }
+
+    if (is_safe_with_mod(&nums, NULL) == 1) {
       safe_cnt++;
     }
 
@@ -106,8 +182,11 @@ int part1() {
 }
 
 int main() {
-  int safe_reports_cnt = part1();
-  printf("safe reports cnt: %d\n", safe_reports_cnt);
+  int safe_reports_p1 = part1();
+  printf("safe reports: %d\n", safe_reports_p1);
+
+  int safe_reports_p2 = part2();
+  printf("safe reports with modifications: %d\n", safe_reports_p2);
 
   return EXIT_SUCCESS;
 }

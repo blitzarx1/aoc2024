@@ -100,3 +100,28 @@ void array_sort(Array *array) {
 
   qsort(array->data, array->size, sizeof(int), compare);
 }
+
+int *array_pop(Array *array, int idx) {
+  if (idx >= array->size) {
+    return NULL;
+  }
+
+  int *res = &array->data[idx];
+
+  for (int i = idx + 1; i < array->size; i++) {
+    array->data[i - 1] = array->data[i];
+  }
+
+  array->size--;
+  return res;
+}
+
+Array array_copy(Array *array) {
+  Array new_array = array_new(array->capacity);
+
+  for (int i = 0; i < array->size; i++) {
+    array_add(&new_array, array->data[i]);
+  }
+
+  return new_array;
+}
