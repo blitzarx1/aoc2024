@@ -4,6 +4,9 @@
 
 static const char *INPUT_PATH = "input.txt";
 
+typedef struct {
+} State;
+
 void readinput(Array *a, Array *b) {
   FILE *fp;
   size_t len = 0;
