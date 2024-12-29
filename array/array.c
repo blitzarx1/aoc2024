@@ -6,10 +6,10 @@
 
 Array array_new(size_t capacity) {
   Array array;
-  int *data = malloc(capacity * sizeof(int));
+  void *data = malloc(capacity * sizeof(void *));
 
   if (data == NULL) {
-    perror("Error allocating memory for array");
+    perror("ERROR allocating memory for array");
     exit(EXIT_FAILURE);
   }
 
@@ -21,9 +21,9 @@ Array array_new(size_t capacity) {
 }
 
 Array *array_resize(Array *array, size_t new_capacity) {
-  int *new_data = realloc(array->data, new_capacity * sizeof(int));
+  void *new_data = realloc(array->data, new_capacity * sizeof(void *));
   if (new_data == NULL) {
-    perror("Error allocating memory for array");
+    perror("ERROR allocating memory for array");
     free(array->data);
     exit(EXIT_FAILURE);
   }
@@ -34,7 +34,7 @@ Array *array_resize(Array *array, size_t new_capacity) {
   return array;
 }
 
-void array_add(Array *array, int val) {
+void array_add(Array *array, void *val) {
   if (array->size == array->capacity) {
     array_resize(array, array->capacity * 2);
   }
@@ -43,19 +43,22 @@ void array_add(Array *array, int val) {
   array->size++;
 }
 
-char *array_string(const Array *array) {
+char *array_string(const Array *array, char *(*str)(void *el)) {
   // 12 chars per number, plus brackets and spaces
   size_t buffer_size = array->size * 12 + 2;
   char *result = malloc(buffer_size);
   if (result == NULL) {
-    perror("Error allocating memory for array string");
+    perror("ERROR allocating memory for array string");
     exit(EXIT_FAILURE);
   }
 
   char *current = result;
   *current++ = '[';
   for (size_t i = 0; i < array->size; i++) {
-    int written = sprintf(current, "%d", array->data[i]);
+    char *elstr = str(array->data[i]);
+    int written = sprintf(current, "%s", elstr);
+    free(elstr);
+
     current += written;
 
     if (i < array->size - 1) {
@@ -71,42 +74,44 @@ char *array_string(const Array *array) {
 
 #include <string.h>
 
-char *array_string_debug(const Array *array) {
-  char *array_contents = array_string(array);
+char *array_string_debug(const Array *array, char *(*str)(void *el)) {
+  char *array_contents = array_string(array, str);
 
-  // Include extra space for size and capacity info
+  // include extra space for size and capacity info
   size_t debug_buffer_size = strlen(array_contents) + 50;
   char *debug_string = malloc(debug_buffer_size);
   if (debug_string == NULL) {
-    perror("Error allocating memory for debug string");
+    perror("ERROR allocating memory for array debug string");
     free(array_contents);
     exit(EXIT_FAILURE);
   }
 
   snprintf(debug_string, debug_buffer_size,
-           "Size: %zu, Capacity: %zu, Contents: %s", array->size,
+           "size: %zu, capacity: %zu, contents: %s", array->size,
            array->capacity, array_contents);
 
   free(array_contents);
   return debug_string;
 }
 
-int compare(const void *a, const void *b) { return (*(int *)a - *(int *)b); }
+int diff(int (*fn)(const void *a, const void *b), void *a, void *b) {
+  return fn(a, b);
+}
 
-void array_sort(Array *array) {
+void array_sort(Array *array, int (*compare)(const void *a, const void *b)) {
   if (array == NULL || array->data == NULL || array->size == 0) {
     return;
   }
 
-  qsort(array->data, array->size, sizeof(int), compare);
+  qsort(array->data, array->size, sizeof(void *), compare);
 }
 
-int *array_pop(Array *array, int idx) {
+void *array_pop(Array *array, int idx) {
   if (idx >= array->size) {
     return NULL;
   }
 
-  int *res = &array->data[idx];
+  void *res = &array->data[idx];
 
   for (int i = idx + 1; i < array->size; i++) {
     array->data[i - 1] = array->data[i];

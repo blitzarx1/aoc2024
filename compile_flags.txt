@@ -1,1 +1,1 @@
--Iarray
+-Iarray -I/opt/homebrew/include -L/opt/homebrew/Cellar/cunit/2.1-3/lib/ -lCunit

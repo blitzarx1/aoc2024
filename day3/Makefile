@@ -6,6 +6,3 @@ run: build
 
 clean: 
 	rm main
-
-
-

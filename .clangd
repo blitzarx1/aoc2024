@@ -1,4 +1,5 @@
 CompileFlags:
   Add:
     - xc
-    - "-I[/Users/dmitrii.samsonov/dev/aoc2024/array]"
+    - -I/Users/dmitrii.samsonov/dev/aoc2024/array
+    - -I/opt/homebrew/include

@@ -38,11 +38,11 @@ short is_safe(Array *nums, int *idx) {
     return 0;
   }
 
-  int prev = nums->data[0];
-  int g_diff = nums->data[nums->size - 1] - prev;
+  int prev = *(int *)(nums->data[0]);
+  int g_diff = *(int *)nums->data[nums->size - 1] - prev;
   int g_sgn = (g_diff) / abs(g_diff);
   for (int i = 1; i < nums->size; i++) {
-    int curr = nums->data[i];
+    int curr = *(int *)nums->data[i];
     int diff = curr - prev;
 
     int sgn = diff / abs(diff);
@@ -68,6 +68,12 @@ short is_safe(Array *nums, int *idx) {
   return 1;
 }
 
+char *str(void *el) {
+  char *buff = malloc(sizeof(int));
+  sprintf(buff, "%d", *(int *)el);
+  return buff;
+}
+
 short is_safe_with_mod(Array *nums, int *mod) {
   if (mod == NULL) {
     printf("\n");
@@ -76,7 +82,7 @@ short is_safe_with_mod(Array *nums, int *mod) {
   printf("checking: ");
 
   if (mod == NULL) {
-    char *nums_str = array_string(nums);
+    char *nums_str = array_string(nums, &str);
     printf("%s", nums_str);
     free(nums_str);
 
@@ -96,7 +102,7 @@ short is_safe_with_mod(Array *nums, int *mod) {
     Array nums_copy = array_copy(nums);
     array_pop(&nums_copy, *mod);
 
-    char *nums_copy_str = array_string(&nums_copy);
+    char *nums_copy_str = array_string(&nums_copy, str);
     printf("%s", nums_copy_str);
     free(nums_copy_str);
 
@@ -129,7 +135,8 @@ int part1() {
 
     Array nums = array_new(splitted_size);
     for (int i = 0; i < splitted_size; i++) {
-      int num = atoi(splitted[i]);
+      int *num = malloc(sizeof(int));
+      *num = atoi(splitted[i]);
       array_add(&nums, num);
     }
 
@@ -164,7 +171,8 @@ int part2() {
 
     Array nums = array_new(splitted_size);
     for (int i = 0; i < splitted_size; i++) {
-      int num = atoi(splitted[i]);
+      int *num = malloc(sizeof(int));
+      *num = atoi(splitted[i]);
       array_add(&nums, num);
     }
 

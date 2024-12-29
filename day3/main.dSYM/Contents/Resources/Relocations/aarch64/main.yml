@@ -1,0 +1,30 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/dmitrii.samsonov/dev/aoc2024/day3/main'
+relocations:
+  - { offset: 0x26, size: 0x8, addend: 0x0, symName: _stateInit, symObjAddr: 0x0, symBinAddr: 0x1000029A0, symSize: 0x48 }
+  - { offset: 0x4D, size: 0x8, addend: 0x0, symName: _INPUT_PATH, symObjAddr: 0x1538, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offset: 0xB7, size: 0x8, addend: 0x0, symName: _stateInit, symObjAddr: 0x0, symBinAddr: 0x1000029A0, symSize: 0x48 }
+  - { offset: 0xDB, size: 0x8, addend: 0x0, symName: _stateIsFinished, symObjAddr: 0x48, symBinAddr: 0x1000029E8, symSize: 0x24 }
+  - { offset: 0x103, size: 0x8, addend: 0x0, symName: _stateEval, symObjAddr: 0x6C, symBinAddr: 0x100002A0C, symSize: 0x1C }
+  - { offset: 0x12B, size: 0x8, addend: 0x0, symName: _stateParseChar, symObjAddr: 0x88, symBinAddr: 0x100002A28, symSize: 0x3C }
+  - { offset: 0x15D, size: 0x8, addend: 0x0, symName: _stateNext, symObjAddr: 0xC4, symBinAddr: 0x100002A64, symSize: 0x78 }
+  - { offset: 0x181, size: 0x8, addend: 0x0, symName: _stateProcessCharName, symObjAddr: 0x13C, symBinAddr: 0x100002ADC, symSize: 0x1E8 }
+  - { offset: 0x1B7, size: 0x8, addend: 0x0, symName: _stateProcessBrOpen, symObjAddr: 0x33C, symBinAddr: 0x100002CDC, symSize: 0x6C }
+  - { offset: 0x1ED, size: 0x8, addend: 0x0, symName: _stateProcessChar, symObjAddr: 0x3A8, symBinAddr: 0x100002D48, symSize: 0x128 }
+  - { offset: 0x223, size: 0x8, addend: 0x0, symName: _stateOperationInit, symObjAddr: 0x4D0, symBinAddr: 0x100002E70, symSize: 0x8C }
+  - { offset: 0x247, size: 0x8, addend: 0x0, symName: _stateOperationEval, symObjAddr: 0x55C, symBinAddr: 0x100002EFC, symSize: 0x188 }
+  - { offset: 0x2C1, size: 0x8, addend: 0x0, symName: _stateOperationParseChar, symObjAddr: 0x6E4, symBinAddr: 0x100003084, symSize: 0x3C }
+  - { offset: 0x2F3, size: 0x8, addend: 0x0, symName: _stateOperationNext, symObjAddr: 0x720, symBinAddr: 0x1000030C0, symSize: 0xA0 }
+  - { offset: 0x317, size: 0x8, addend: 0x0, symName: _validateNum, symObjAddr: 0x7D8, symBinAddr: 0x100003178, symSize: 0x8C }
+  - { offset: 0x35B, size: 0x8, addend: 0x0, symName: _stateOperationProcessCharBrOpen, symObjAddr: 0x864, symBinAddr: 0x100003204, symSize: 0x9C }
+  - { offset: 0x391, size: 0x8, addend: 0x0, symName: _stateOperationProcessCharComma, symObjAddr: 0x900, symBinAddr: 0x1000032A0, symSize: 0x9C }
+  - { offset: 0x3C7, size: 0x8, addend: 0x0, symName: _stateOperationProcessChaArg2, symObjAddr: 0x99C, symBinAddr: 0x10000333C, symSize: 0xD4 }
+  - { offset: 0x3FD, size: 0x8, addend: 0x0, symName: _stateOperationProcessCharArg1, symObjAddr: 0xA70, symBinAddr: 0x100003410, symSize: 0xD4 }
+  - { offset: 0x433, size: 0x8, addend: 0x0, symName: _stateOperationProcessCharMulName, symObjAddr: 0xB44, symBinAddr: 0x1000034E4, symSize: 0x144 }
+  - { offset: 0x46C, size: 0x8, addend: 0x0, symName: _stateOperationIsFinished, symObjAddr: 0xC98, symBinAddr: 0x100003638, symSize: 0x24 }
+  - { offset: 0x496, size: 0x8, addend: 0x0, symName: _stateOperationProcessChar, symObjAddr: 0xCBC, symBinAddr: 0x10000365C, symSize: 0x1A0 }
+  - { offset: 0x4CF, size: 0x8, addend: 0x0, symName: _part1, symObjAddr: 0xE70, symBinAddr: 0x100003810, symSize: 0x23C }
+  - { offset: 0x5BD, size: 0x8, addend: 0x0, symName: _part2, symObjAddr: 0x10AC, symBinAddr: 0x100003A4C, symSize: 0x2FC }
+  - { offset: 0x716, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x13A8, symBinAddr: 0x100003D48, symSize: 0x70 }
+...
