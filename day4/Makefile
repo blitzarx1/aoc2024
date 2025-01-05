@@ -13,8 +13,12 @@ run: build
 	./main
 
 build-test:
-	gcc -c xmas_finder/xmas_finder.c -o xmas_finder.o && \
-    gcc xmas_finder/tests.c xmas_finder.o -I/opt/homebrew/include -L/opt/homebrew/Cellar/cunit/2.1-3/lib/ -lCUnit -o tests
+	gcc -g -O0 -c xmas_finder/xmas_finder.c -o xmas_finder.o
+	gcc -g -O0 xmas_finder/tests.c xmas_finder.o \
+	    -I/opt/homebrew/include \
+	    -L/opt/homebrew/Cellar/cunit/2.1-3/lib/ \
+	    -lCUnit \
+	    -o tests
 
 run-test: build-test
 	./tests
